@@ -1,6 +1,9 @@
 package com.techelevator.projects.model;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import org.springframework.jdbc.support.rowset.SqlRowSet;
 
 public interface ProjectDAO {
 
@@ -13,6 +16,7 @@ public interface ProjectDAO {
 	 * @return all active projects as Project objects in a List
 	 */
 	public List<Project> getAllActiveProjects();
+	
 
 	/**
 	 * Unassign the employee from a project.
@@ -21,6 +25,7 @@ public interface ProjectDAO {
 	 * @param employeeId the employee to remove
 	 */
 	public void removeEmployeeFromProject(Long projectId, Long employeeId);
+	
 
 	/**
 	 * Assign an employee to a project
