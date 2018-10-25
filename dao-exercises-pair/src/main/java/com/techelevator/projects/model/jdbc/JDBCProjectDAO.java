@@ -19,17 +19,19 @@ public class JDBCProjectDAO implements ProjectDAO {
 	public JDBCProjectDAO(DataSource dataSource) {
 		this.jdbcTemplate = new JdbcTemplate(dataSource);
 	}
-	
+
 	@Override
 	public List<Project> getAllActiveProjects() {
-		
+
 		List<Project> activeProjects = new ArrayList<Project>();
-		String sqlGetAllActiveProjects = "SELECT name FROM project WHERE to_date IS NULL OR from_date IS NULL ";
+		String sqlGetAllActiveProjects = "SELECT name, project_id FROM project WHERE to_date IS NULL OR from_date IS NULL ";
 		SqlRowSet results = jdbcTemplate.queryForRowSet(sqlGetAllActiveProjects);
 		while(results.next()) {
 			Project theProject = new Project();
 			String projectName = results.getString("name");
+			Long projectId = results.getLong("project_id");
 			theProject.setName(projectName);
+			theProject.setId(projectId);
 			activeProjects.add(theProject);
 		}
 		return activeProjects;
@@ -42,7 +44,7 @@ public class JDBCProjectDAO implements ProjectDAO {
 	}
 
 	@Override
-	public void addEmployeeToProject(Long projectId, Long employeeId) {		
+	public void addEmployeeToProject(Long projectId, Long employeeId) {
 		String sql = "INSERT INTO project_employee (project_id, employee_id) VALUES (?, ?) ";
 		this.jdbcTemplate.update(sql, projectId, employeeId);
 	}

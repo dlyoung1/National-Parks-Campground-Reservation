@@ -18,17 +18,19 @@ public class JDBCEmployeeDAO implements EmployeeDAO {
 	public JDBCEmployeeDAO(DataSource dataSource) {
 		this.jdbcTemplate = new JdbcTemplate(dataSource);
 	}
-	
+
 	@Override
 	public List<Employee> getAllEmployees() {
 		List<Employee> employees = new ArrayList<Employee>();
-		String sqlGetAllEmployees = "SELECT last_name, first_name FROM employee ";
+		String sqlGetAllEmployees = "SELECT last_name, first_name, employee_id FROM employee ";
 		SqlRowSet results = jdbcTemplate.queryForRowSet(sqlGetAllEmployees);
 		while(results.next()) {
 			String firstName = results.getString("first_name");
 			String lastName = results.getString("last_name");
+			Long employeeId = results.getLong("employee_id");
 			Employee employee = new Employee();
 			employee.setFirstName(firstName);
+			employee.setId(employeeId);
 			employee.setLastName(lastName);
 			employees.add(employee);
 		}
@@ -55,7 +57,7 @@ public class JDBCEmployeeDAO implements EmployeeDAO {
 	public List<Employee> getEmployeesByDepartmentId(long id) {
 		List<Employee> employees = new ArrayList<Employee>();
 		String sqlGetEmployeesByDepartmentId = "SELECT first_name, last_name FROM employee JOIN department ON department.department_id = employee.department_id WHERE " +
-											   "department.department_id = ? ";
+				"department.department_id = ? ";
 		SqlRowSet results = jdbcTemplate.queryForRowSet(sqlGetEmployeesByDepartmentId, id);
 		while(results.next()) {
 			String firstName = results.getString("first_name");
@@ -71,8 +73,8 @@ public class JDBCEmployeeDAO implements EmployeeDAO {
 	@Override
 	public List<Employee> getEmployeesWithoutProjects() {
 		List<Employee> employees = new ArrayList<Employee>();
-		String sqlGetEmployeesWithoutProjects = "SELECT first_name, last_name FROM employee " + 
-												"WHERE employee_id NOT IN (SELECT employee_id FROM project_employee) ";
+		String sqlGetEmployeesWithoutProjects = "SELECT first_name, last_name FROM employee " +
+				"WHERE employee_id NOT IN (SELECT employee_id FROM project_employee) ";
 		SqlRowSet results = jdbcTemplate.queryForRowSet(sqlGetEmployeesWithoutProjects);
 		while(results.next()) {
 			String firstName = results.getString("first_name");
@@ -103,10 +105,9 @@ public class JDBCEmployeeDAO implements EmployeeDAO {
 
 	@Override
 	public void changeEmployeeDepartment(Long employeeId, Long departmentId) {
-		String sqlChangeEmployeeDepartment = "UPDATE employee " + 
+		String sqlChangeEmployeeDepartment = "UPDATE employee " +
 				"SET department_id = ? WHERE employee_id = ? ";
 		this.jdbcTemplate.update(sqlChangeEmployeeDepartment, departmentId, employeeId);
 	}
-
 
 }
