@@ -127,19 +127,12 @@ public class CampgroundCLI {
 	private void handleSearchReservation(int parkId) throws Exception {
 		handleCampgrounds(parkId);
 		List<String> campground = campgroundDAO.getCampgroundId(parkId);
-		boolean done = false;
-		while(!done) {
-			System.out.println("Which campground? (enter 0 to cancel)");
-			String choice = (String)menu.getChoiceWithoutDisplay(campground.toArray());
-			System.out.println("choice: " + choice);
-				if(Integer.valueOf(choice) == 0) {
-					System.exit(0);
-				} else if(campground.contains(choice)) {
-					done = true;
-					getDates(Integer.valueOf(choice));
-				} else {
-					System.out.println("Please enter a valid selection.");
-				}
+		System.out.println("Which campground? (enter 0 to cancel)");
+		String choice = (String)menu.getChoiceWithoutDisplay(campground.toArray());
+		if(Integer.valueOf(choice) == 0) {
+			System.exit(0);
+		} else if(campground.toString().contains(choice)) {
+			getDates(Integer.valueOf(choice));
 		}
 	}
 	

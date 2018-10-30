@@ -40,11 +40,10 @@ public class Menu {
 					choice = "0";
 				} else if(selectedOption <= options.length) {
 					choice = options[selectedOption - 1];
+				} else {
+					System.out.println("*** "+userInput+" is not a valid option ***");
 				}
 			} catch(NumberFormatException e) {
-			}
-			if(choice == null) {
-				out.println("\n*** "+userInput+" is not a valid option ***\n");
 			}
 		}
 		return choice;

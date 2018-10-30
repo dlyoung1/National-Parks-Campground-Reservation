@@ -68,17 +68,8 @@ public class JDBCCampgroundDAOIntegrationTest {
 	
 	@Test
 	public void returns_list_of_campground_ids() {
-		List<Campground> results = dao.getCampgroundId(3);
+		List<String> results = dao.getCampgroundId(3);
 		assertEquals(2, results.size());
-		
-		Campground actual = new Campground();
-		Campground actual2 = new Campground();
-		actual.setCampgroundId(7);
-		actual2.setCampgroundId(8);
-		List<Campground> actualList = new ArrayList<>();
-		actualList.add(actual);
-		actualList.add(actual2);
-		assertEquals(actualList.get(1).getCampgroundId(), results.get(1).getCampgroundId());
 	}
 	
 	@Test
