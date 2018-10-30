@@ -126,17 +126,21 @@ public class CampgroundCLI {
 	
 	private void handleSearchReservation(int parkId) throws Exception {
 		handleCampgrounds(parkId);
-		System.out.println("Which campground? (enter 0 to cancel)");
-		int campgroundId = menu.getChoiceFromUserInput();
-			if(campgroundId == 0) {
-				System.exit(0);
-			}
-		if(parkId == 2) {
-			campgroundId += 3;
-		} else if(parkId == 3) {
-			campgroundId = 7;
+		List<String> campground = campgroundDAO.getCampgroundId(parkId);
+		boolean done = false;
+		while(!done) {
+			System.out.println("Which campground? (enter 0 to cancel)");
+			String choice = (String)menu.getChoiceWithoutDisplay(campground.toArray());
+			System.out.println("choice: " + choice);
+				if(Integer.valueOf(choice) == 0) {
+					System.exit(0);
+				} else if(campground.contains(choice)) {
+					done = true;
+					getDates(Integer.valueOf(choice));
+				} else {
+					System.out.println("Please enter a valid selection.");
+				}
 		}
-		getDates(campgroundId);
 	}
 	
 	private void getDates(int campgroundId) throws Exception {
@@ -202,15 +206,9 @@ public class CampgroundCLI {
 				}
 			} 
 			Site site = siteDAO.getSiteInfo(reservationIds.get(i));
-			int number = site.getSiteNumber();
-			int maxOccupancy = site.getMaxOccupancy();
-			boolean accessible = site.isAccessible();
-			int rvLength = site.getRvLength();
-			boolean utilities = site.isUtilities();
-			String siteInfo = String.format("%-20s %-20s %-20s %-20s %-20s %-20s", number, maxOccupancy, convertBoolean(accessible), rvLength, convertBoolean(utilities), " $" + totalCost);
+			String siteInfo = String.format("%-20s %-20s %-20s %-20s %-20s %-20s", site.getSiteNumber(), site.getMaxOccupancy(), convertBoolean(site.isAccessible()), site.getRvLength(), convertBoolean(site.isUtilities()), " $" + totalCost);
 			System.out.println(siteInfo);
 			sites.add(siteInfo);
-			
 			if (i == reservationIds.size() - 1) {
 				String choice = (String)menu.getChoiceFromOptions(ALT_SITE_MENU_OPTIONS);
 				if(choice.equals(SITE_OPTION_RESERVE)) {

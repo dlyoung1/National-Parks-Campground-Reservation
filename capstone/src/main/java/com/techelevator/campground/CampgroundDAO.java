@@ -24,6 +24,14 @@ public interface CampgroundDAO {
 	 * @param campgroundId
 	 * @return
 	 */
+	
+	/**
+	 * Returns camp ground IDs of the park
+	 * @param parkId
+	 * @return
+	 */
+	public List<String> getCampgroundId(int parkId);
+	
 	public BigDecimal getCampgroundFee(int campgroundId);
 	
 	/**

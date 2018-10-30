@@ -2,6 +2,7 @@ package com.techelevator.campground.jdbc;
 
 import static org.junit.Assert.*;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -63,6 +64,21 @@ public class JDBCCampgroundDAOIntegrationTest {
 		assertEquals("New Campground", results.get(1).getName());
 		
 		assertEquals("OCTOBER", results.get(1).getOpenTo());
+	}
+	
+	@Test
+	public void returns_list_of_campground_ids() {
+		List<Campground> results = dao.getCampgroundId(3);
+		assertEquals(2, results.size());
+		
+		Campground actual = new Campground();
+		Campground actual2 = new Campground();
+		actual.setCampgroundId(7);
+		actual2.setCampgroundId(8);
+		List<Campground> actualList = new ArrayList<>();
+		actualList.add(actual);
+		actualList.add(actual2);
+		assertEquals(actualList.get(1).getCampgroundId(), results.get(1).getCampgroundId());
 	}
 	
 	@Test

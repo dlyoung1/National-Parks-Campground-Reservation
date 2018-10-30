@@ -5,8 +5,11 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.Locale;
 import java.util.Scanner;
+
+import com.techelevator.campground.Campground;
 
 public class Menu {
 	
@@ -26,6 +29,26 @@ public class Menu {
 		}
 		return choice;
 	}
+	
+	public Object getChoiceWithoutDisplay(Object[] options) {
+		Object choice = null;
+		while(choice == null) {
+			String userInput = in.nextLine();
+			try {
+				int selectedOption = Integer.valueOf(userInput);
+				if(selectedOption == 0) {
+					choice = "0";
+				} else if(selectedOption <= options.length) {
+					choice = options[selectedOption - 1];
+				}
+			} catch(NumberFormatException e) {
+			}
+			if(choice == null) {
+				out.println("\n*** "+userInput+" is not a valid option ***\n");
+			}
+		}
+		return choice;
+	}
 
 	private Object getChoiceFromUserInput(Object[] options) {
 		Object choice = null;
@@ -42,16 +65,22 @@ public class Menu {
 		}
 		return choice;
 	}
-	
-	public int getChoiceFromUserInput() {
-		String userInput = in.nextLine();
-		int nums = 0;
-		try {
-			nums = Integer.valueOf(userInput);
-		} catch(NumberFormatException e) {
-		}
-		return nums;
-	}
+//	
+//	public Object getChoiceFromUserInput(List<Campground> campground) {
+//		Object choice = null;
+//		String userInput = in.nextLine();
+//		int selectedOption = Integer.valueOf(userInput);
+//		try {
+//			if(selectedOption <= campground.size()) {
+//				choice = campground.get(selectedOption - 1).getCampgroundId();
+//			}
+//		} catch(NumberFormatException e) {
+//		}
+//		if(choice == null) {
+//			out.println("\n*** " + userInput + " is not a valid option ***\n");
+//		}
+//		return choice;
+//	}
 	
 	public String getInfoFromUser() {
 		String userInput = in.nextLine();
