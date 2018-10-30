@@ -30,6 +30,22 @@ public class Menu {
 		return choice;
 	}
 	
+	private Object getChoiceFromUserInput(Object[] options) {
+		Object choice = null;
+		String userInput = in.nextLine();
+		try {
+			int selectedOption = Integer.valueOf(userInput);
+			if(selectedOption <= options.length) {
+				choice = options[selectedOption - 1];
+			}
+		} catch(NumberFormatException e) {
+		}
+		if(choice == null) {
+			out.println("\n*** "+userInput+" is not a valid option ***\n");
+		}
+		return choice;
+	}
+
 	public Object getChoiceWithoutDisplay(Object[] options) {
 		Object choice = null;
 		while(choice == null) {
@@ -49,38 +65,6 @@ public class Menu {
 		return choice;
 	}
 
-	private Object getChoiceFromUserInput(Object[] options) {
-		Object choice = null;
-		String userInput = in.nextLine();
-		try {
-			int selectedOption = Integer.valueOf(userInput);
-			if(selectedOption <= options.length) {
-				choice = options[selectedOption - 1];
-			}
-		} catch(NumberFormatException e) {
-		}
-		if(choice == null) {
-			out.println("\n*** "+userInput+" is not a valid option ***\n");
-		}
-		return choice;
-	}
-//	
-//	public Object getChoiceFromUserInput(List<Campground> campground) {
-//		Object choice = null;
-//		String userInput = in.nextLine();
-//		int selectedOption = Integer.valueOf(userInput);
-//		try {
-//			if(selectedOption <= campground.size()) {
-//				choice = campground.get(selectedOption - 1).getCampgroundId();
-//			}
-//		} catch(NumberFormatException e) {
-//		}
-//		if(choice == null) {
-//			out.println("\n*** " + userInput + " is not a valid option ***\n");
-//		}
-//		return choice;
-//	}
-	
 	public String getInfoFromUser() {
 		String userInput = in.nextLine();
 		return userInput;

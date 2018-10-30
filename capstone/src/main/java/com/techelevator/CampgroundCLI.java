@@ -130,10 +130,9 @@ public class CampgroundCLI {
 		System.out.println("Which campground? (enter 0 to cancel)");
 		String choice = (String)menu.getChoiceWithoutDisplay(campground.toArray());
 		if(Integer.valueOf(choice) == 0) {
-			System.exit(0);
-		} else if(campground.toString().contains(choice)) {
-			getDates(Integer.valueOf(choice));
-		}
+			run();
+		} 
+		getDates(Integer.valueOf(choice));
 	}
 	
 	private void getDates(int campgroundId) throws Exception {
